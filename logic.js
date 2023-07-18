@@ -1,5 +1,6 @@
-
+var count=0
  var numOfFails=0
+ var result
  var check = document.getElementById("submitFields");
  check.addEventListener("click", () =>
  {
@@ -22,6 +23,7 @@ console.log(stage1value,stage2value,stage3value,stage4value)
    
 function setValue(field,stagevalue,product) 
 {
+  count+=1;
  if(stagevalue>product)
  {
     field.value = "Pass";
@@ -32,11 +34,23 @@ function setValue(field,stagevalue,product)
     numOfFails+=1
     field.value="Fail"
   }
+  console.log(numOfFails)
+  console.log(count)
+  if(count===4)
+  {
+    if(numOfFails>1)
+    {
+      result="Fail"
+    }else{
+      result="Pass"
+    }
+  }else{
+    result="Pending"
+  }
 }
 
 function changeInputClass(field) 
   {
-    //var stage1Res = document.getElementById("stage1Res");
     field.classList.remove("btn-outline-success");
     field.classList.add("btn-outline-danger");
   }
@@ -53,10 +67,10 @@ const appendAlert = (message, type) => {
           <thead>
             <tr>
               <th scope="col">ProductID</th>
-              <th scope="col">stage1</th>
-              <th scope="col">stage2</th>
-              <th scope="col">stage3</th>
-              <th scope="col">stage4</th>
+              <th scope="col">Temperature</th>
+              <th scope="col">Weight</th>
+              <th scope="col">Quantity</th>
+              <th scope="col">Dimentions</th>
             </tr>
           </thead>
           <tbody> 
@@ -67,6 +81,10 @@ const appendAlert = (message, type) => {
               <td>${quantity}</td>
               <td>${dimentions}</td>
             </tr>
+            <tr>
+              <td scope="col" colspan="2">Product Status</td>
+              <td colspan="3">${result}</td>
+           </tr>
           </tbody>
         </table>
     </div>`
@@ -75,13 +93,3 @@ const appendAlert = (message, type) => {
   alertPlaceholder.append(wrapper)
 }
  
-// const alertTrigger =document.getElementById('liveAlertBtn')
-// if(alertTrigger){
-//   alertTrigger.addEventListener('click',()=>
-//   {
-//     appendAlert('Nice, you triggered this alert message!', 'primary')
-//   })
-// }
-
-  
-   
