@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+	<head lang="en">
+		<meta charset="utf-8">
+		<title>Factory</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+        <script async src="https://unpkg.com/es-module-shims@1.6.3/dist/es-module-shims.js"></script>
+        
+
+        <script type="importmap">
+          {
+            "imports": {
+              "three": "https://unpkg.com/three@0.154.0/build/three.module.js",
+              "three_mmi": "./three_mmi.js",
+              "three/addons/": "https://unpkg.com/three@0.154.0/examples/jsm/"
+            }
+          }
+        </script>
+	</head>
+  
+	<body>
+    <div class="row">
+      <div class="col-8">
+        <canvas class="webgl" width="1000" height="400" style="border:1px solid rgb(0, 0, 0);"></canvas>
+      <script type="module" src="animation.js"></script>
+      <script type="module" src="logic.js"></script>
+      </div>
+    
+      <div class="col-4">
+        <div id="liveAlertPlaceholder">
+          
+          <!-- message when mesh is clicked -->
+          </div>
+          <!-- <button type="button" class="btn btn-primary" id="liveAlertBtn">Show live alert</button> -->
+        </div>
+          </div>
+        </div>
+            
+              <div class="row">
+              <div class="col-sm">
+                  <!-- input field bottom left -->
+                <div class="input-box">
+                    <h3>Product Details</h3>
+            
+                    <div class="input-group flex-nowrap">
+                        <span class="input-group-text" >ProductID</span>
+                        <input type="text" class="form-control"  id="ProductID" value="box">
+                      </div>
+            
+                      <div class="input-group flex-nowrap">
+                        <span class="input-group-text" >Temperature</span>
+                        <input type="text" class="form-control"  id="Temperature" value="30">
+                      </div>
+            
+                      <div class="input-group flex-nowrap">
+                        <span class="input-group-text" >Weight</span>
+                        <input type="text" class="form-control"  id="Weight" value="32">
+                      </div>
+            
+                      <div class="input-group flex-nowrap">
+                        <span class="input-group-text" >Quantity</span>
+                        <input type="text" class="form-control"  id="quantity" value="34">
+                      </div>
+            
+                      <div class="input-group flex-nowrap">
+                        <span class="input-group-text" >Dimentions</span>
+                        <input type="text" class="form-control"  id="Dimentions" value="32">
+                      </div>
+                    <br>
+                    <button type="button" class="btn btn-primary" id="submitFields">Submit</button>
+                </div>
+              </div>
+              <div class="col-sm">
+                <div>
+                    <h3>Check Stages</h3>
+                    <!-- Stage field bottom middle -->
+                  <div class="input-group mb-3">
+                      <button class="btn btn-outline-primary" type="button" id="stage1" >Stage 1</button>
+                      <input type="text" class="form-control" placeholder="Temperature" id="stage1value" value="21">
+                    </div>
+                    <div class="input-group mb-3">
+                      <button class="btn btn-outline-primary" type="button" id="stage2" >Stage 2</button>
+                      <input type="text" class="form-control" placeholder="Weight" id="stage2value" value="33">
+                    </div>
+                    <div class="input-group mb-3">
+                      <button class="btn btn-outline-primary" type="button" id="stage3" >Stage 3</button>
+                      <input type="text" class="form-control" placeholder="Quality" id="stage3value" value="45">
+                    </div>
+                    <div class="input-group mb-3">
+                      <button class="btn btn-outline-primary" type="button" id="stage4" >Stage 4</button>
+                      <input type="text" class="form-control" placeholder="Dimentions" id="stage4value" value="21">
+                    </div>
+                </div>
+            </div>
+            <script src="logic.js"></script>
+              <div class="col-sm" >
+                  <div style="align-items: center;">
+                      <!-- Results -->
+                      <h3>View Results</h3>
+                    <div style="padding-bottom: 16px;" id="resultdiv">
+                        <input type="text" id="stage1Res" class="btn btn-outline-success">
+                    </div>
+                    <div style="padding-bottom: 16px;">
+                        <input type="text" id="stage2Res" class="btn btn-outline-success">
+                    </div>
+                    <div style="padding-bottom: 16px;">
+                        <input type="text" id="stage3Res" class="btn btn-outline-success">
+                    </div>
+                    <div style="padding-bottom: 16px;">
+                        <input type="text" id="stage4Res" class="btn btn-outline-success">
+                    </div>
+                  </div>
+              </div>
+            </div> 
+        </div>
+	</body>
+</html>
+
+
+
