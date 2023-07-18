@@ -105,7 +105,7 @@ mmi.addHandler('product', 'mouseup', function(mesh) {
 
 mmi.addHandler('product', 'click', function(mesh) {
 	console.log('mouse button is clicked on the mesh!  ', mesh);
-  appendAlert('Nice, you triggered this alert message!', 'primary')
+  appendAlert('Details of selected product', 'primary')
 });
 
 //load the model
@@ -207,7 +207,6 @@ function animateBoxStage4()
     renderer.render(scene,camera)
     console.log(realboxMesh5.position.x)
 }
-
 
 
 
