@@ -2,8 +2,20 @@ import * as THREE from 'three'
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import {OrbitControls} from 'https://unpkg.com/three@0.154.0/examples/jsm/controls/OrbitControls.js'
 import MouseMeshInteraction from 'three_mmi'
+import { CSS2DRenderer, CSS2DObject } from 'three/addons/renderers/CSS2DRenderer.js';
+import {ID,temp,weight,quantity,dimentions,stage1value,stage2value,stage3value,stage4value} from './logic.js'
+import { setValue,stagesResultAlert,result} from './logic.js';
+
+var z=4
+
+var realboxMesh5
+
+var productLabel
 console.log(THREE)
+
+console.log("Id is "+ID)
 const canvas = document.querySelector(".webgl");
+
 //set sizes
 const sizes={
   width : canvas.width,
@@ -21,11 +33,20 @@ renderer.shadowMap.enabled = true
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 renderer.setSize(sizes.width,sizes.height)
 renderer.setPixelRatio(Math.min(window.devicePixelRatio,2))
+renderer.gammaOutput=true
+
+//LabelRenderer
+let labelRenderer = new CSS2DRenderer();
+  labelRenderer.setSize(sizes.width,sizes.height);
+  labelRenderer.domElement.style.position = "absolute";
+  labelRenderer.domElement.style.top = "0px";
+  document.body.appendChild(labelRenderer.domElement);
 
 //set Scene
 
 const scene =new THREE.Scene()
-scene.background = new THREE.Color('black');
+scene.background = new THREE.Color(0xB1E1FF);
+export{scene}
 //Camera
 const camera =new THREE.PerspectiveCamera(75, sizes.width/sizes.height,1,1000)
 camera.position.set(-9,4,-3)
@@ -53,9 +74,6 @@ camera.position.set(-9,4,-3)
   scene.add(light);
   scene.add(light.target);
 
-  const helper = new THREE.DirectionalLightHelper(light);
-  //scene.add(helper);
-
 }
 
 {
@@ -63,29 +81,66 @@ const ambientLight=new THREE.AmbientLight(0xffffff,1.5)
 scene.add(ambientLight)
 }
 //OrbitControls
-const controls=new OrbitControls(camera,renderer.domElement)
-controls.addEventListener('change',()=> {renderer.render(scene,camera)})
-controls.target.set(0,0,0)
-controls.enablePan = false;
-controls.maxPolarAngle = Math.PI/2.8 ;
-controls.update()
+const controls = new OrbitControls(camera, labelRenderer.domElement);
+  controls.minDistance = 5;
+  controls.maxDistance = 100;
+  controls.enablePan = false;
+  controls.maxPolarAngle = Math.PI/2.6 ;
 // create product
+
 
 const brown_color=new THREE.Color(0x964b00);
 const grey_color = new THREE.Color(0x57554f);
 const orange_color = new THREE.Color(0xffaa00);
 const red_color = new THREE.Color(0xff0a0a);
-const geometry=new THREE.BoxGeometry(.5,.5,.5)
+
+
+function createNewProduct(){
+  const geometry=new THREE.BoxGeometry(.5,.5,.5)
 const material=new THREE.MeshStandardMaterial({color: grey_color})
-const mmi = new MouseMeshInteraction(scene, camera);
-const realboxMesh5=new THREE.Mesh(geometry,material)
+realboxMesh5=new THREE.Mesh(geometry,material)
 realboxMesh5.position.set(-7.5,3.6,-1.45)
-realboxMesh5.name='product';
+realboxMesh5.name='product'
 realboxMesh5.castShadow = true;
     realboxMesh5.receiveShadow = true;
 scene.add(realboxMesh5)
+}
+
+//Bulb Animation
+
+const box1Geometry = new THREE.BoxGeometry(.1,.1,.1);
+const box1Material=new THREE.MeshStandardMaterial({ color: grey_color });
+
+  const stage1Bulb = new THREE.Mesh(box1Geometry, box1Material);
+  stage1Bulb.name='bulb1'
+  stage1Bulb.position.set(-6.4,4.45,-1.9)
+scene.add(stage1Bulb);
+
+const box2Geometry = new THREE.BoxGeometry(.1,.1,.1);
+const box2Material=new THREE.MeshStandardMaterial({ color: grey_color });
+const stage2Bulb = new THREE.Mesh(box2Geometry, box2Material);
+  stage2Bulb.name='bulb2'
+  stage2Bulb.position.set(-4.7,4.45,-1.9)
+scene.add(stage2Bulb);
+
+const box3Geometry = new THREE.BoxGeometry(.1,.1,.1);
+const box3Material=new THREE.MeshStandardMaterial({ color: grey_color });
+const stage3Bulb = new THREE.Mesh(box3Geometry, box3Material);
+  stage3Bulb.name='bulb3'
+  stage3Bulb.position.set(-3.3,4.45,-1.9)
+scene.add(stage3Bulb)
+
+const box4Geometry = new THREE.BoxGeometry(.1,.1,.1);
+const box4Material=new THREE.MeshStandardMaterial({ color: grey_color });
+const stage4Bulb = new THREE.Mesh(box4Geometry, box4Material);
+  stage4Bulb.name='bulb4'
+  stage4Bulb.position.set(-1.4,4.45,-1.9)
+scene.add(stage4Bulb);
+export{stage1Bulb,stage2Bulb,stage3Bulb,stage4Bulb}
 
 //mouse mesh interactions
+
+const mmi = new MouseMeshInteraction(scene, camera);
 
 mmi.addHandler('product', 'mouseenter', function(mesh) {
   console.log('mouse is over the mesh!  ', mesh);
@@ -94,6 +149,7 @@ mmi.addHandler('product', 'mouseenter', function(mesh) {
 
 mmi.addHandler('product', 'mouseleave', function(mesh) {
   console.log('mouse has left!  ', mesh);
+  removeAlert()
   if(mesh.position.x===.5)
   mesh.material.color= brown_color;
   else
@@ -111,11 +167,12 @@ mmi.addHandler('product', 'mousedown', function(mesh) {
 mmi.addHandler('product', 'mouseup', function(mesh) {
   console.log('mouse button is released on the mesh!  ', mesh);
   mesh.material.color = orange_color;
+  
 });
 
 mmi.addHandler('product', 'click', function(mesh) {
   console.log('mouse button is clicked on the mesh!  ', mesh);
-  appendAlert('Details of selected product', 'primary')
+  appendAlert()
 });
 
 //load the model
@@ -163,79 +220,115 @@ loader.load('project_revised.glb', function(glb){
   scene.add(mesh);
 }
 
+
 function animateModel(){
   requestAnimationFrame(animateModel)
   mmi.update();
   renderer.render(scene,camera)
+   labelRenderer.render(scene, camera);
 }
-
 animateModel()
 
+//Product animation during click
 var stage1 = document.getElementById("stage1");
-stage1.addEventListener("click" , function() {
-
-    animateBoxStage1(-5);
+stage1.addEventListener("click" , ()=> {
+  stage1Bulb.material.color = orange_color;
+    animateBoxStage(-5,stage1Res,stage1value,temp,grey_color,stage1Bulb);
 });
 
 var stage2 = document.getElementById("stage2");
-stage2.addEventListener("click", animateBoxStage2);
+stage2.addEventListener("click", ()=> {
+  stage2Bulb.material.color = orange_color;
+  animateBoxStage(-3.7,stage2Res,stage2value,weight,grey_color,stage2Bulb)
+  });
+
 var stage3 = document.getElementById("stage3");
-stage3.addEventListener("click", animateBoxStage3);
+stage3.addEventListener("click", ()=>{
+  stage3Bulb.material.color = orange_color;
+  animateBoxStage(-1.5,stage3Res,stage3value,quantity,grey_color,stage3Bulb)
+});
 var stage4 = document.getElementById("stage4");
-stage4.addEventListener("click", animateBoxStage4);
+stage4.addEventListener("click", ()=>{
+  stage4Bulb.material.color = orange_color;
+  animateBoxStage(.5,stage4Res,stage4value,dimentions,brown_color,stage4Bulb) 
+});
 
-function animateBoxStage1() {
-    let myReq=requestAnimationFrame(animateBoxStage1)
-    if ( realboxMesh5.position.x < -5 ) {
-        realboxMesh5.position.set(realboxMesh5.position.x+.01,3.6,-1.45)
-    } else {
-     realboxMesh5.position.set(-5,3.6,-1.45);
-      setValue(stage1Res,stage1value,temp)
-      cancelAnimationFrame(myReq);
-    }
-    renderer.render(scene,camera)
-    console.log(realboxMesh5.position.x)
-    }
+//function which animates in a straight line
+function animateBoxStage(xPos,Res,Sval,Pval,color,bulb) {
+  function animationStep() {
+      if (realboxMesh5.position.x < xPos) {
+          realboxMesh5.position.x += 0.03;
+          renderer.render(scene, camera);
+          console.log(realboxMesh5.position.x);
+          requestAnimationFrame(animationStep);
+      } else {
+          realboxMesh5.position.set(xPos, 3.6, -1.45);
+          realboxMesh5.material.color=color
+          setValue(Res,Sval,Pval,bulb);
+          
+          renderer.render(scene, camera);   
+      }
+  }
+  animationStep();
+}
+//Append popup when mesh is clicked
 
-function animateBoxStage2()
-{
-    let myReq=requestAnimationFrame(animateBoxStage2)
-    if ( realboxMesh5.position.x < -3.7 ) {
-        realboxMesh5.position.set(realboxMesh5.position.x+.01,3.6,-1.45)
-    } else {
-      realboxMesh5.position.set(-3.7,3.6,-1.45);
-      setValue(stage2Res,stage2value,weight)
-      cancelAnimationFrame(myReq);
-    }
-    renderer.render(scene,camera)
-    console.log(realboxMesh5.position.x)
+const appendAlert = (boxMesh) => {
+  const wrapper = document.createElement('div')
+  wrapper.innerHTML = [
+    `<table class="table">
+         <thead>
+            <tr style ="font-size:10px">
+              <th scope="col">ProductID</th>
+              <th scope="col">Temperature</th>
+              <th scope="col">Weight</th>
+              <th scope="col">Quantity</th>
+              <th scope="col">Dimentions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style ="font-size:10px">
+              <td>${ID}</td>
+              <td>${temp}</td>
+              <td>${weight}</td>
+              <td>${quantity}</td>
+              <td>${dimentions}</td>
+            </tr>
+           <tr style ="font-size:10px">
+                <th scope="col">Product stages</th>
+               <th scope="col">Stage1</th>
+                <th scope="col">Stage2</th>
+                <th scope="col">Stage3</th>
+                <th scope="col">Stage4</th>
+           </tr>
+           <tr style ="font-size:10px">
+               <td></td>
+                <td>${stagesResultAlert[1]}</td>
+                <td>${stagesResultAlert[2]}</td>
+                <td>${stagesResultAlert[3]}</td>
+                <td>${stagesResultAlert[4]}</td>
+           </tr>
+           <tr style ="font-size:10px">
+              <th scope="col" colspan="2">Product Status</th>
+              <td colspan="3">${result}</td>
+           </tr>
+          </tbody>
+        </table>
+  </div>`
+  ].join('')
+  wrapper.className = "label";
+  wrapper.style.marginTop = "-1em";
+  productLabel = new CSS2DObject(wrapper);
+  productLabel.position.set(0,1,1);
+  realboxMesh5.add(productLabel); 
+
 }
 
-function animateBoxStage3()
+function removeAlert()
 {
-  let myReq=requestAnimationFrame(animateBoxStage3)
-    if ( realboxMesh5.position.x < -1.5 ) {
-        realboxMesh5.position.set(realboxMesh5.position.x+.01,3.6,-1.45)
-    } else {
-     realboxMesh5.position.set(-1.5,3.6,-1.45);
-     setValue(stage3Res,stage3value,quantity)
-      cancelAnimationFrame(myReq);
-    }
-    renderer.render(scene,camera)
-    console.log(realboxMesh5.position.x)
+  realboxMesh5.remove(productLabel); 
+ 
 }
 
-function animateBoxStage4()
-{
-    let myReq=requestAnimationFrame(animateBoxStage4)
-    if ( realboxMesh5.position.x < .5 ) {
-        realboxMesh5.position.set(realboxMesh5.position.x+.01,3.6,-1.45)
-    } else {
-      realboxMesh5.position.set(.5,3.6,-1.45);
-      realboxMesh5.material.color=brown_color;
-      setValue(stage4Res,stage4value,dimentions)
-      cancelAnimationFrame(myReq);
-    }
-    renderer.render(scene,camera)
-    console.log(realboxMesh5.position.x)
-}
+export {createNewProduct}
+
