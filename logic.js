@@ -1,32 +1,93 @@
-var stagesResultAlert=["","Pending","Pending","Pending","Pending"]
-var count=0
+import data from '/data.json' assert { type: 'json' };
+import { createNewProduct } from './animation.js';
+import * as THREE from 'three'
+import{stage1Bulb,stage2Bulb,stage3Bulb,stage4Bulb} from './animation.js'
+const red_color = new THREE.Color(0xff0a0a);
+const green_color=new THREE.Color(0x008000)
+const grey_color = new THREE.Color(0x57554f);
+var stagesResultAlert
+var count
  var numOfFails=0
- var result="pending"
- var check = document.getElementById("submitFields");
+ var productNum=0
+ var result
+
+
+var ID,temp,weight,quantity,dimentions
+var stage1value,stage2value,stage3value,stage4value
+var stage1Res,stage2Res,stage3Res,stage4Res
+var check = document.getElementById("submitFields");
  check.addEventListener("click", () =>
  {
-  ID = document.getElementById('ProductID').value;
-  temp = document.getElementById('Temperature').value;
-  weight = document.getElementById('Weight').value;
-  quantity = document.getElementById('quantity').value;
-  dimentions = document.getElementById('Dimentions').value;
+  stage1Res = document.getElementById('stage1Res')
+  stage2Res = document.getElementById('stage2Res')
+  stage3Res =document.getElementById('stage3Res')
+  stage4Res =document.getElementById('stage4Res')
+   //initialize values
+  result="pending"
+   count=0
+   stage1Res.value=''
+   stage2Res.value=''
+   stage3Res.value=''
+   stage4Res.value=''
+  stagesResultAlert=["","Pending","Pending","Pending","Pending"]
+  stage1Bulb.material.color=grey_color
+  stage2Bulb.material.color=grey_color
+  stage3Bulb.material.color=grey_color
+  stage4Bulb.material.color=grey_color
+  
+  //get box to starting position
+  createNewProduct()
+   //get product details from json file
+  ID=data.products[productNum].id
+  temp=data.products[productNum].temperature
+  weight=data.products[productNum].weight
+  quantity=data.products[productNum].quality
+  dimentions=data.products[productNum].dimentions
+//set value to the product details text field
+  document.getElementById('ProductID').setAttribute('value',ID)
+  document.getElementById('Temperature').setAttribute('value',temp)
+  document.getElementById('Weight').setAttribute('value',weight)
+  document.getElementById('quantity').setAttribute('value',quantity)
+  document.getElementById('Dimentions').setAttribute('value',dimentions)
+  //for now get threshold values from the stages field
     stage1value = document.getElementById('stage1value').value
     stage2value = document.getElementById('stage2value').value
     stage3value =document.getElementById('stage3value').value
     stage4value =document.getElementById('stage4value').value
+
+    productNum+=1
+    
  // Do something with the field values
+
+  stage1Res.classList.remove("btn-outline-danger");
+  stage2Res.classList.remove("btn-outline-danger");
+  stage3Res.classList.remove("btn-outline-danger");
+  stage4Res.classList.remove("btn-outline-danger");
+
+  stage1Res.classList.add("btn-outline-success");
+  stage2Res.classList.add("btn-outline-success");
+  stage3Res.classList.add("btn-outline-success");
+  stage4Res.classList.add("btn-outline-success");
+  
 
  console.log(ID,temp,weight,quantity,dimentions)
 console.log(stage1value,stage2value,stage3value,stage4value)
 
  });
+ function setID()
+ {
+   return ID
+ }
+ export{setID,ID,temp,weight,quantity,dimentions,stage1value,stage2value,stage3value,stage4value}
 //find if Pass or FAil
 
-function setValue(field,stagevalue,product)
+function setValue(field,stagevalue,product,stageBulb)
 {
   count+=1;
  if(stagevalue>product)
  {
+   stageBulb.material.color=green_color
+   console.log(stageBulb.name)
   stagesResultAlert [count]=field.value = "Pass"
     }
     else
@@ -34,6 +95,8 @@ function setValue(field,stagevalue,product)
     changeInputClass(field)
     numOfFails+=1
     stagesResultAlert [count]=field.value = "Fail"
+    console.log(stageBulb.name)
+    stageBulb.material.color=red_color
   }
   console.log(numOfFails)
   console.log(count)
@@ -49,6 +112,7 @@ function setValue(field,stagevalue,product)
     result="Pending"
   }
 }
+export {setValue,stagesResultAlert,result}
 //change color of stages field
 
 function changeInputClass(field)
@@ -56,55 +120,3 @@ function changeInputClass(field)
     field.classList.remove("btn-outline-success");
     field.classList.add("btn-outline-danger");
   }
-const alertPlaceholder = document.getElementById('liveAlertPlaceholder')
-
-//Append popup when mesh is clicked
-
-const appendAlert = (message, type) => {
-  const wrapper = document.createElement('div')
-  wrapper.innerHTML = [
-    `<div class="alert alert-${type} alert-dismissible" role="alert">`,
-    `   <div>${message}</div>`,
-    `   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>`,
-    `<table class="table">
-         <thead>
-            <tr>
-              <th scope="col">ProductID</th>
-              <th scope="col">Temperature</th>
-              <th scope="col">Weight</th>
-              <th scope="col">Quantity</th>
-              <th scope="col">Dimentions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <th scope="row">${ID}</th>
-              <td>${temp}</td>
-              <td>${weight}</td>
-              <td>${quantity}</td>
-              <td>${dimentions}</td>
-            </tr>
-            <tr>
-              <th scope="col" colspan="2">Product Status</th>
-              <td colspan="3">${result}</td>
-           </tr>
-           <tr>
-                <th scope="col">Product stages</th>
-               <th scope="col">Stage1</th>
-                <th scope="col">Stage2</th>
-                <th scope="col">Stage3</th>
-                <th scope="col">Stage4</th>
-           </tr>
-           <tr>
-               <td></td>
-                <td>${stagesResultAlert[1]}</td>
-                <td>${stagesResultAlert[2]}</td>
-                <td>${stagesResultAlert[3]}</td>
-                <td>${stagesResultAlert[4]}</td>
-           </tr>
-          </tbody>
-        </table>
-  </div>`
-  ].join('')
-  alertPlaceholder.append(wrapper)
-}
