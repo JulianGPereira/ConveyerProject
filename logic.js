@@ -1,4 +1,4 @@
-import data from '/data.json' assert { type: 'json' };
+import data from './data.json' assert { type: 'json' };
 import { createNewProduct } from './animation.js';
 import * as THREE from 'three'
 import{stage1Bulb,stage2Bulb,stage3Bulb,stage4Bulb} from './animation.js'
