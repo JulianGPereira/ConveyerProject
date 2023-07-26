@@ -5,9 +5,9 @@ import MouseMeshInteraction from 'three_mmi'
 import { CSS2DRenderer, CSS2DObject } from 'three/addons/renderers/CSS2DRenderer.js';
 import {ID,temp,weight,quantity,dimentions,stage1value,stage2value,stage3value,stage4value} from './logic.js'
 import { setValue,stagesResultAlert,result} from './logic.js';
+var rightx=.5
 
-var z=4
-
+var mainz=-1.45
 var realboxMesh5
 
 var productLabel
@@ -262,10 +262,21 @@ function animateBoxStage(xPos,Res,Sval,Pval,color,bulb) {
           console.log(realboxMesh5.position.x);
           requestAnimationFrame(animationStep);
       } else {
+        if(result==="Pending")
+        {
           realboxMesh5.position.set(xPos, 3.6, -1.45);
-          realboxMesh5.material.color=color
+        } 
           setValue(Res,Sval,Pval,bulb);
-          
+          console.log(result)
+        if(result==="Pass")
+        {
+          realboxMesh5.material.color=color
+          realboxMesh5.position.set(xPos, 3.6, mainz++);
+        }
+          if(result==="Fail")
+            {
+              moveRight(3)
+            }
           renderer.render(scene, camera);   
       }
   }
@@ -332,3 +343,24 @@ function removeAlert()
 
 export {createNewProduct}
 
+function moveRight(zPos)
+{
+
+  realboxMesh5.material.color=grey_color
+  function animationStep() {
+    if (realboxMesh5.position.z < zPos) {
+        realboxMesh5.position.z += 0.03;
+        renderer.render(scene, camera);
+        console.log(realboxMesh5.position.z);
+        requestAnimationFrame(animationStep);
+    } else {
+        realboxMesh5.position.set(rightx--, 3.6, zPos);
+        
+        //setValue(Res,Sval,Pval,bulb);
+        
+        renderer.render(scene, camera);   
+    }
+}
+animationStep();
+
+}
