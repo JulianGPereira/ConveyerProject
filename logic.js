@@ -25,6 +25,7 @@ var check = document.getElementById("submitFields");
    //initialize values
   result="pending"
    count=0
+   numOfFails=0
    stage1Res.value=''
    stage2Res.value=''
    stage3Res.value=''
@@ -83,6 +84,7 @@ console.log(stage1value,stage2value,stage3value,stage4value)
 
 function setValue(field,stagevalue,product,stageBulb)
 {
+  
   count+=1;
  if(stagevalue>product)
  {
@@ -104,6 +106,7 @@ function setValue(field,stagevalue,product,stageBulb)
   {
     if(numOfFails>1)
     {
+      
       result="Fail"
     }else{
       result="Pass"
@@ -111,6 +114,7 @@ function setValue(field,stagevalue,product,stageBulb)
   }else{
     result="Pending"
   }
+  
 }
 export {setValue,stagesResultAlert,result}
 //change color of stages field
