@@ -1,8 +1,9 @@
 import data from './data.json' assert { type: 'json' };
 import { createNewProduct } from './animation.js';
 import * as THREE from 'three'
-import{stage1Bulb,stage2Bulb,stage3Bulb,stage4Bulb} from './animation.js'
-import { stage1,stage2,stage3,stage4 } from './animation.js';
+import{stage1Bulb,stage2Bulb,stage3Bulb,stage4Bulb} from './bulbAnimation.js'
+import { stage1,stage2,stage3,stage4 } from './boxAnimation.js';
+
 const red_color = new THREE.Color(0xff0a0a);
 const green_color=new THREE.Color(0x008000)
 const grey_color = new THREE.Color(0x57554f);
