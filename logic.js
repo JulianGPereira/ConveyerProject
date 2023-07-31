@@ -2,6 +2,7 @@ import data from './data.json' assert { type: 'json' };
 import { createNewProduct } from './animation.js';
 import * as THREE from 'three'
 import{stage1Bulb,stage2Bulb,stage3Bulb,stage4Bulb} from './animation.js'
+import { stage1,stage2,stage3,stage4 } from './animation.js';
 const red_color = new THREE.Color(0xff0a0a);
 const green_color=new THREE.Color(0x008000)
 const grey_color = new THREE.Color(0x57554f);
@@ -35,7 +36,10 @@ var check = document.getElementById("submitFields");
   stage2Bulb.material.color=grey_color
   stage3Bulb.material.color=grey_color
   stage4Bulb.material.color=grey_color
-  
+  stage1.disabled =false
+  stage2.disabled =true
+  stage3.disabled =true
+  stage4.disabled =true
   //get box to starting position
   createNewProduct()
    //get product details from json file
@@ -105,8 +109,7 @@ function setValue(field,stagevalue,product,stageBulb)
   if(count>=4)
   {
     if(numOfFails>1)
-    {
-      
+    {  
       result="Fail"
     }else{
       result="Pass"
@@ -124,3 +127,31 @@ function changeInputClass(field)
     field.classList.remove("btn-outline-success");
     field.classList.add("btn-outline-danger");
   }
+
+
+  function addEntry() {
+     var existingEntries = JSON.parse(localStorage.getItem("allEntries"));
+
+     console.log(existingEntries)
+     //existingEntries=JSON.stringify(existingEntries)
+     if(existingEntries == null) existingEntries = [];
+    var entry = {
+        "ID": ID,
+        "temperature": temp,
+        "Weight": weight,
+        "Quantity": quantity,
+        "Dimentions": dimentions,
+        "Stage1Result":stage1Res.value,
+        "Stage2Result":stage2Res.value,
+        "Stage3Result":stage3Res.value,
+        "Stage4Result":stage4Res.value,
+        "Product Result":result
+    };
+    console.log(entry)
+    localStorage.setItem("entry", JSON.stringify(entry));
+    existingEntries.push((entry));
+    localStorage.setItem("allEntries", JSON.stringify(existingEntries));
+    console.log(localStorage.getItem('entry'))
+};
+export{addEntry}
+
