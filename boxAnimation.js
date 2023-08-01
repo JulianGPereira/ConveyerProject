@@ -3,6 +3,7 @@ import{renderer,realboxMesh5,scene,camera} from './animation.js'
 import{stage1Bulb,stage2Bulb,stage3Bulb,stage4Bulb} from './bulbAnimation.js'
 import {temp,weight,quantity,dimentions} from './logic.js'
 import { setValue,result} from './logic.js';
+import { check } from './logic.js';
 var stage1value,stage2value,stage3value,stage4value
 const brown_color=new THREE.Color(0x964b00);
 const grey_color = new THREE.Color(0x57554f);
@@ -12,6 +13,7 @@ var mainz=-2
 
 var stage1 = document.getElementById("stage1");
 stage1.addEventListener("click" , ()=> {
+ 
   stage1Bulb.material.color = orange_color;
   stage1.disabled=true
   stage2.disabled=false
@@ -44,6 +46,7 @@ stage4.addEventListener("click", ()=>{
   stage4value =document.getElementById('stage4value').value
   animateBoxStage(-.5,stage4Res,stage4value,dimentions,brown_color,stage4Bulb) 
  // addEntry()
+ //check.disabled=false
 });
 
 export{stage1,stage2,stage3,stage4}
@@ -91,13 +94,14 @@ function moveRight(zPos)
         requestAnimationFrame(animationStep);
     } else {
         realboxMesh5.position.set(rightx--, 3.6, zPos);
-        
+        check.disabled=false 
         //setValue(Res,Sval,Pval,bulb);
         
         renderer.render(scene, camera);   
     }
 }
 animationStep();
+
 }
 
 function movetoPass(move)
@@ -110,12 +114,12 @@ function movetoPass(move)
         requestAnimationFrame(animationStep);
     } else {
         realboxMesh5.position.set(move, 3.6, mainz++);
-        
+        check.disabled=false 
         //setValue(Res,Sval,Pval,bulb);
         
         renderer.render(scene, camera);   
     }
 }
 animationStep();
-  
+
 }
