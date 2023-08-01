@@ -123,7 +123,7 @@ mmi.addHandler('product', 'mouseenter', function(mesh) {
 mmi.addHandler('product', 'mouseleave', function(mesh) {
   console.log('mouse has left!  ', mesh);
   removeAlert()
-  if(mesh.position.x===1)
+  if(mesh.position.x===1.5)
   mesh.material.color= brown_color;
   else
   mesh.material.color = grey_color;
