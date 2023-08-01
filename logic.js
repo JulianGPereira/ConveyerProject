@@ -15,7 +15,7 @@ var count
 
 
 var ID,temp,weight,quantity,dimentions
-var stage1value,stage2value,stage3value,stage4value
+
 var stage1Res,stage2Res,stage3Res,stage4Res
 var check = document.getElementById("submitFields");
  check.addEventListener("click", () =>
@@ -56,10 +56,7 @@ var check = document.getElementById("submitFields");
   document.getElementById('quantity').setAttribute('value',quantity)
   document.getElementById('Dimentions').setAttribute('value',dimentions)
   //for now get threshold values from the stages field
-    stage1value = document.getElementById('stage1value').value
-    stage2value = document.getElementById('stage2value').value
-    stage3value =document.getElementById('stage3value').value
-    stage4value =document.getElementById('stage4value').value
+    
 
     productNum+=1
     
@@ -70,10 +67,15 @@ var check = document.getElementById("submitFields");
   stage3Res.classList.remove("btn-outline-danger");
   stage4Res.classList.remove("btn-outline-danger");
 
-  stage1Res.classList.add("btn-outline-success");
-  stage2Res.classList.add("btn-outline-success");
-  stage3Res.classList.add("btn-outline-success");
-  stage4Res.classList.add("btn-outline-success");
+  stage1Res.classList.remove("btn-outline-success");
+  stage2Res.classList.remove("btn-outline-success");
+  stage3Res.classList.remove("btn-outline-success");
+  stage4Res.classList.remove("btn-outline-success");
+
+  stage1Res.classList.add("btn-outline-secondary");
+  stage2Res.classList.add("btn-outline-secondary");
+  stage3Res.classList.add("btn-outline-secondary");
+  stage4Res.classList.add("btn-outline-secondary");
   
 
  console.log(ID,temp,weight,quantity,dimentions)
@@ -84,24 +86,26 @@ console.log(stage1value,stage2value,stage3value,stage4value)
  {
    return ID
  }
- export{setID,ID,temp,weight,quantity,dimentions,stage1value,stage2value,stage3value,stage4value}
+ export{setID,ID,temp,weight,quantity,dimentions}
 //find if Pass or FAil
 
 function setValue(field,stagevalue,product,stageBulb)
 {
-  
+    
   count+=1;
  if(stagevalue>product)
  {
    stageBulb.material.color=green_color
    console.log(stageBulb.name)
   stagesResultAlert [count]=field.value = "Pass"
+  changeInputClass(field,stagesResultAlert [count])
     }
     else
     {
-    changeInputClass(field)
+    
     numOfFails+=1
     stagesResultAlert [count]=field.value = "Fail"
+    changeInputClass(field,stagesResultAlert [count])
     console.log(stageBulb.name)
     stageBulb.material.color=red_color
   }
@@ -123,36 +127,17 @@ function setValue(field,stagevalue,product,stageBulb)
 export {setValue,stagesResultAlert,result}
 //change color of stages field
 
-function changeInputClass(field)
+function changeInputClass(field,res)
   {
-    field.classList.remove("btn-outline-success");
+    console.log("result is "+res)
+    if(res=="Fail"){
+    field.classList.remove("btn-outline-secondary");
     field.classList.add("btn-outline-danger");
+  }else{
+    field.classList.remove("btn-outline-secondary");
+    field.classList.add("btn-outline-success");
+
   }
+}
 
-
-  function addEntry() {
-     var existingEntries = JSON.parse(localStorage.getItem("allEntries"));
-
-     console.log(existingEntries)
-     //existingEntries=JSON.stringify(existingEntries)
-     if(existingEntries == null) existingEntries = [];
-    var entry = {
-        "ID": ID,
-        "temperature": temp,
-        "Weight": weight,
-        "Quantity": quantity,
-        "Dimentions": dimentions,
-        "Stage1Result":stage1Res.value,
-        "Stage2Result":stage2Res.value,
-        "Stage3Result":stage3Res.value,
-        "Stage4Result":stage4Res.value,
-        "Product Result":result
-    };
-    console.log(entry)
-    localStorage.setItem("entry", JSON.stringify(entry));
-    existingEntries.push((entry));
-    localStorage.setItem("allEntries", JSON.stringify(existingEntries));
-    console.log(localStorage.getItem('entry'))
-};
-export{addEntry}
 
