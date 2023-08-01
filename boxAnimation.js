@@ -61,9 +61,9 @@ function animateBoxStage(xPos,Res,Sval,Pval,color,bulb) {
           console.log(result)
         if(result==="Pass")
         {
-          
+          movetoPass(2)
           realboxMesh5.material.color=color
-          realboxMesh5.position.set(1, 3.6, mainz++);
+          // realboxMesh5.position.set(1.5, 3.6, mainz++);
         }
           if(result==="Fail")
             {
@@ -96,3 +96,22 @@ function moveRight(zPos)
 animationStep();
 }
 
+function movetoPass(move)
+{
+  function animationStep() {
+    if (realboxMesh5.position.x < move) {
+        realboxMesh5.position.x += 0.03;
+        renderer.render(scene, camera);
+        //console.log(realboxMesh5.position.z);
+        requestAnimationFrame(animationStep);
+    } else {
+        realboxMesh5.position.set(move, 3.6, mainz++);
+        
+        //setValue(Res,Sval,Pval,bulb);
+        
+        renderer.render(scene, camera);   
+    }
+}
+animationStep();
+  
+}
