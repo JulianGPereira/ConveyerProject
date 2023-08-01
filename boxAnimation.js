@@ -1,9 +1,9 @@
 import * as THREE from 'three'
 import{renderer,realboxMesh5,scene,camera} from './animation.js'
 import{stage1Bulb,stage2Bulb,stage3Bulb,stage4Bulb} from './bulbAnimation.js'
-import {temp,weight,quantity,dimentions,stage1value,stage2value,stage3value,stage4value} from './logic.js'
+import {temp,weight,quantity,dimentions} from './logic.js'
 import { setValue,result} from './logic.js';
-
+var stage1value,stage2value,stage3value,stage4value
 const brown_color=new THREE.Color(0x964b00);
 const grey_color = new THREE.Color(0x57554f);
 const orange_color = new THREE.Color(0xffaa00);
@@ -15,6 +15,7 @@ stage1.addEventListener("click" , ()=> {
   stage1Bulb.material.color = orange_color;
   stage1.disabled=true
   stage2.disabled=false
+  stage1value = document.getElementById('stage1value').value
     animateBoxStage(-5,stage1Res,stage1value,temp,grey_color,stage1Bulb);
 });
 
@@ -23,6 +24,7 @@ stage2.addEventListener("click", ()=> {
   stage2Bulb.material.color = orange_color;
   stage2.disabled=true
   stage3.disabled=false
+  stage2value = document.getElementById('stage2value').value
   animateBoxStage(-3.7,stage2Res,stage2value,weight,grey_color,stage2Bulb)
   });
 
@@ -31,6 +33,7 @@ stage3.addEventListener("click", ()=>{
   stage3Bulb.material.color = orange_color;
   stage3.disabled=true
   stage4.disabled=false
+  stage3value =document.getElementById('stage3value').value
   animateBoxStage(-1.5,stage3Res,stage3value,quantity,grey_color,stage3Bulb)
 });
 
@@ -38,6 +41,7 @@ var stage4 = document.getElementById("stage4");
 stage4.addEventListener("click", ()=>{
   stage4Bulb.material.color = orange_color;
   stage4.disabled=true
+  stage4value =document.getElementById('stage4value').value
   animateBoxStage(-.5,stage4Res,stage4value,dimentions,brown_color,stage4Bulb) 
  // addEntry()
 });
