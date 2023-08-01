@@ -18,8 +18,10 @@ var ID,temp,weight,quantity,dimentions
 
 var stage1Res,stage2Res,stage3Res,stage4Res
 var check = document.getElementById("submitFields");
+export {check}
  check.addEventListener("click", () =>
  {
+  check.disabled=true
   stage1Res = document.getElementById('stage1Res')
   stage2Res = document.getElementById('stage2Res')
   stage3Res =document.getElementById('stage3Res')
