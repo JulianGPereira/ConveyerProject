@@ -49,7 +49,7 @@ export {check}
   ID=data.products[productNum].id
   temp=data.products[productNum].temperature
   weight=data.products[productNum].weight
-  quantity=data.products[productNum].quality
+  quantity=data.products[productNum].quantity
   dimentions=data.products[productNum].dimentions
 //set value to the product details text field
   document.getElementById('ProductID').setAttribute('value',ID)

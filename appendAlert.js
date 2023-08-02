@@ -33,7 +33,7 @@ function setValToMesh()
                 <th scope="col">Temperature</th>
                 <th scope="col">Weight</th>
                 <th scope="col">Quantity</th>
-                <th scope="col">Dimentions</th>
+                <th scope="col">Dimensions</th>
               </tr>
             </thead>
             <tbody>
