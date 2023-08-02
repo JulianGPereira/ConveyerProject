@@ -33,4 +33,3 @@ const stage4Bulb = new THREE.Mesh(box4Geometry, box4Material);
   stage4Bulb.position.set(-1.2,4.45,-1.9)
   
 export{stage1Bulb,stage2Bulb,stage3Bulb,stage4Bulb}
-

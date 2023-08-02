@@ -6,8 +6,9 @@ import { CSS2DRenderer } from 'three/addons/renderers/CSS2DRenderer.js';
 
 //import { addEntry } from './logic.js';
 import {stage1Bulb,stage2Bulb,stage3Bulb,stage4Bulb}  from './bulbAnimation.js';
-import { appendAlert,removeAlert } from './appendAlert.js';
-var realboxMesh5
+import { removeAlert, appendAlert, setValToMesh } from './appendAlert.js';
+
+
 
 const canvas = document.querySelector(".webgl");
 
@@ -92,17 +93,7 @@ const orange_color = new THREE.Color(0xffaa00);
 const red_color = new THREE.Color(0xff0a0a);
 
 //Function to create new Product when button is clicked
-function createNewProduct(){
-  const geometry=new THREE.BoxGeometry(.5,.5,.5)
-const material=new THREE.MeshStandardMaterial({color: grey_color})
-realboxMesh5=new THREE.Mesh(geometry,material)
-realboxMesh5.position.set(-7.5,3.6,-1.45)
-realboxMesh5.name='product'
-realboxMesh5.castShadow = true;
-    realboxMesh5.receiveShadow = true;
-scene.add(realboxMesh5)
 
-}
 
 //StageBulb from bulbAnimation.js
 scene.add(stage1Bulb);
@@ -117,6 +108,7 @@ const mmi = new MouseMeshInteraction(scene, camera);
 
 mmi.addHandler('product', 'mouseenter', function(mesh) {
   console.log('mouse is over the mesh!  ', mesh);
+ 
   mesh.material.color = orange_color;
 });
 
@@ -131,6 +123,7 @@ mmi.addHandler('product', 'mouseleave', function(mesh) {
 
 
 mmi.addHandler('product', 'mousedown', function(mesh) {
+  
   console.log('mouse button is pressing on the mesh!  ', mesh);
 
   mesh.material.color = red_color;
@@ -139,13 +132,17 @@ mmi.addHandler('product', 'mousedown', function(mesh) {
 
 mmi.addHandler('product', 'mouseup', function(mesh) {
   console.log('mouse button is released on the mesh!  ', mesh);
+
   mesh.material.color = orange_color;
   
 });
 
 mmi.addHandler('product', 'click', function(mesh) {
   console.log('mouse button is clicked on the mesh!  ', mesh);
-  appendAlert()
+  console.log("this is when clicked "+mesh.ID)
+  //setValToMesh(mesh)
+  appendAlert(mesh)
+  //productLabel.visible=true
 });
 
 //load the conveyer model
@@ -170,7 +167,7 @@ loader.load('projectNEW.glb', function(glb){
 
 })
 
-export{renderer,realboxMesh5,scene,camera}
+export{renderer,scene,camera}
 
 {
 
@@ -205,5 +202,3 @@ function animateModel(){
    labelRenderer.render(scene, camera);
 }
 animateModel()
-
-export {createNewProduct}

@@ -1,15 +1,37 @@
 import * as THREE from 'three'
-import{renderer,realboxMesh5,scene,camera} from './animation.js'
+import{renderer,scene,camera} from './animation.js'
 import{stage1Bulb,stage2Bulb,stage3Bulb,stage4Bulb} from './bulbAnimation.js'
 import {temp,weight,quantity,dimentions} from './logic.js'
 import { setValue,result} from './logic.js';
 import { check } from './logic.js';
+import { appendAlert,setValToMesh } from './appendAlert.js';
 var stage1value,stage2value,stage3value,stage4value
 const brown_color=new THREE.Color(0x964b00);
 const grey_color = new THREE.Color(0x57554f);
 const orange_color = new THREE.Color(0xffaa00);
 var rightx=.55
 var mainz=-2
+
+var boxMesh=[]
+var boxNum
+//Create New Product
+function createNewProduct(num){
+  boxNum=num
+  const geometry=new THREE.BoxGeometry(.5,.5,.5)
+const material=new THREE.MeshStandardMaterial({color: grey_color})
+console.log("Currently Box num is "+boxNum)
+boxMesh[boxNum]=new THREE.Mesh(geometry,material)
+boxMesh[boxNum].position.set(-7.5,3.6,-1.45)
+boxMesh[boxNum].name='product'
+boxMesh[boxNum].castShadow = true;
+    boxMesh[boxNum].receiveShadow = true;
+scene.add(boxMesh[boxNum])
+//boxNum++
+console.log("Currently Box num is "+boxNum)
+console.log("id of box "+boxMesh[boxNum].id)
+}
+
+export {createNewProduct,boxMesh,boxNum}
 
 var stage1 = document.getElementById("stage1");
 stage1.addEventListener("click" , ()=> {
@@ -54,23 +76,24 @@ export{stage1,stage2,stage3,stage4}
 //function which animates in a straight line
 function animateBoxStage(xPos,Res,Sval,Pval,color,bulb) {
   function animationStep() {
-      if (realboxMesh5.position.x < xPos) {
-          realboxMesh5.position.x += 0.03;
+   // console.log("boxMeshboxNum "+boxNum)
+      if (boxMesh[boxNum].position.x < xPos) {
+          boxMesh[boxNum].position.x += 0.03;
           renderer.render(scene, camera);
-          //console.log(realboxMesh5.position.x);
+          //console.log(boxMesh[boxNum].position.x);
           requestAnimationFrame(animationStep);
       } else {
         if(result==="Pending")
         {
-          realboxMesh5.position.set(xPos, 3.6, -1.45);
+          boxMesh[boxNum].position.set(xPos, 3.6, -1.45);
         } 
           setValue(Res,Sval,Pval,bulb);
           console.log(result)
         if(result==="Pass")
         {
           movetoPass(2)
-          realboxMesh5.material.color=color
-          // realboxMesh5.position.set(1.5, 3.6, mainz++);
+          boxMesh[boxNum].material.color=color
+          // boxMesh[boxNum].position.set(1.5, 3.6, mainz++);
         }
           if(result==="Fail")
             {
@@ -85,18 +108,18 @@ function animateBoxStage(xPos,Res,Sval,Pval,color,bulb) {
 //Funvtion which moves boxes to failed section
 function moveRight(zPos)
 {
-  realboxMesh5.material.color=grey_color
+  boxMesh[boxNum].material.color=grey_color
   function animationStep() {
-    if (realboxMesh5.position.z < zPos) {
-        realboxMesh5.position.z += 0.03;
+    if (boxMesh[boxNum].position.z < zPos) {
+        boxMesh[boxNum].position.z += 0.03;
         renderer.render(scene, camera);
-        //console.log(realboxMesh5.position.z);
+        //console.log(boxMesh[boxNum].position.z);
         requestAnimationFrame(animationStep);
     } else {
-        realboxMesh5.position.set(rightx--, 3.6, zPos);
+        boxMesh[boxNum].position.set(rightx--, 3.6, zPos);
         check.disabled=false 
+        //setValToMesh()
         //setValue(Res,Sval,Pval,bulb);
-        
         renderer.render(scene, camera);   
     }
 }
@@ -107,16 +130,18 @@ animationStep();
 function movetoPass(move)
 {
   function animationStep() {
-    if (realboxMesh5.position.x < move) {
-        realboxMesh5.position.x += 0.03;
+    if (boxMesh[boxNum].position.x < move) {
+        boxMesh[boxNum].position.x += 0.03;
         renderer.render(scene, camera);
-        //console.log(realboxMesh5.position.z);
+        //console.log(boxMesh[boxNum].position.z);
         requestAnimationFrame(animationStep);
     } else {
-        realboxMesh5.position.set(move, 3.6, mainz++);
+        boxMesh[boxNum].position.set(move, 3.6, mainz++);
         check.disabled=false 
+        //appendAlert()
+       // setValToMesh()
+        console.log(boxMesh[boxNum].ID)
         //setValue(Res,Sval,Pval,bulb);
-        
         renderer.render(scene, camera);   
     }
 }

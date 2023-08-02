@@ -1,5 +1,5 @@
 import data from './data.json' assert { type: 'json' };
-import { createNewProduct } from './animation.js';
+import { createNewProduct } from './boxAnimation.js';
 import * as THREE from 'three'
 import{stage1Bulb,stage2Bulb,stage3Bulb,stage4Bulb} from './bulbAnimation.js'
 import { stage1,stage2,stage3,stage4 } from './boxAnimation.js';
@@ -7,7 +7,7 @@ import { stage1,stage2,stage3,stage4 } from './boxAnimation.js';
 const red_color = new THREE.Color(0xff0a0a);
 const green_color=new THREE.Color(0x008000)
 const grey_color = new THREE.Color(0x57554f);
-var stagesResultAlert
+var stagesResultAlert=["","Pending","Pending","Pending","Pending"]
 var count
  var numOfFails=0
  var productNum=0
@@ -44,7 +44,7 @@ export {check}
   stage3.disabled =true
   stage4.disabled =true
   //get box to starting position
-  createNewProduct()
+  
    //get product details from json file
   ID=data.products[productNum].id
   temp=data.products[productNum].temperature
@@ -79,16 +79,14 @@ export {check}
   stage3Res.classList.add("btn-outline-secondary");
   stage4Res.classList.add("btn-outline-secondary");
   
+  createNewProduct(productNum)
 
  console.log(ID,temp,weight,quantity,dimentions)
-console.log(stage1value,stage2value,stage3value,stage4value)
+//console.log(stage1value,stage2value,stage3value,stage4value)
 
  });
- function setID()
- {
-   return ID
- }
- export{setID,ID,temp,weight,quantity,dimentions}
+ 
+ export{ID,temp,weight,quantity,dimentions}
 //find if Pass or FAil
 
 function setValue(field,stagevalue,product,stageBulb)
@@ -98,7 +96,7 @@ function setValue(field,stagevalue,product,stageBulb)
  if(stagevalue>product)
  {
    stageBulb.material.color=green_color
-   console.log(stageBulb.name)
+  // console.log(stageBulb.name)
   stagesResultAlert [count]=field.value = "Pass"
   changeInputClass(field,stagesResultAlert [count])
     }
@@ -108,7 +106,7 @@ function setValue(field,stagevalue,product,stageBulb)
     numOfFails+=1
     stagesResultAlert [count]=field.value = "Fail"
     changeInputClass(field,stagesResultAlert [count])
-    console.log(stageBulb.name)
+ //   console.log(stageBulb.name)
     stageBulb.material.color=red_color
   }
   console.log(numOfFails)
@@ -124,7 +122,6 @@ function setValue(field,stagevalue,product,stageBulb)
   }else{
     result="Pending"
   }
-  
 }
 export {setValue,stagesResultAlert,result}
 //change color of stages field
