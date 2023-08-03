@@ -3,7 +3,7 @@ import { createNewProduct } from './boxAnimation.js';
 import * as THREE from 'three'
 import{stage1Bulb,stage2Bulb,stage3Bulb,stage4Bulb} from './bulbAnimation.js'
 import { stage1,stage2,stage3,stage4 } from './boxAnimation.js';
-
+import { setValToMesh } from './appendAlert.js';
 const red_color = new THREE.Color(0xff0a0a);
 const green_color=new THREE.Color(0x008000)
 const grey_color = new THREE.Color(0x57554f);
@@ -122,6 +122,7 @@ function setValue(field,stagevalue,product,stageBulb)
   }else{
     result="Pending"
   }
+  setValToMesh()
 }
 export {setValue,stagesResultAlert,result}
 //change color of stages field
@@ -138,5 +139,4 @@ function changeInputClass(field,res)
 
   }
 }
-
 
