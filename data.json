@@ -30,6 +30,20 @@
     "weight": 50,
     "quantity": 41,
     "dimentions": 30
+},
+{
+    "id": "box 5",
+    "temperature": 10,
+    "weight": 20,
+    "quantity": 30,
+    "dimentions": 30
+},
+{
+    "id": "box 6",
+    "temperature": 45,
+    "weight": 55,
+    "quantity": 42,
+    "dimentions": 31
 }
                 ]
 }
