@@ -10,7 +10,7 @@ const brown_color=new THREE.Color(0x964b00);
 const grey_color = new THREE.Color(0x57554f);
 const orange_color = new THREE.Color(0xffaa00);
 var rightx=.55
-var mainz=-2
+var mainz=-2.5
 
 var boxMesh=[]
 var boxNum
@@ -83,6 +83,7 @@ function animateBoxStage(xPos,Res,Sval,Pval,color,bulb) {
           //console.log(boxMesh[boxNum].position.x);
           requestAnimationFrame(animationStep);
       } else {
+        
         if(result==="Pending")
         {
           boxMesh[boxNum].position.set(xPos, 3.6, -1.45);
@@ -118,6 +119,7 @@ function moveRight(zPos)
     } else {
         boxMesh[boxNum].position.set(rightx--, 3.6, zPos);
         check.disabled=false 
+       
         //setValToMesh()
         //setValue(Res,Sval,Pval,bulb);
         renderer.render(scene, camera);   
@@ -138,7 +140,7 @@ function movetoPass(move)
     } else {
         boxMesh[boxNum].position.set(move, 3.6, mainz++);
         check.disabled=false 
-        //appendAlert()
+       
        // setValToMesh()
         console.log(boxMesh[boxNum].ID)
         //setValue(Res,Sval,Pval,bulb);
